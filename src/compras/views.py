@@ -35,7 +35,7 @@ class CompraViewSet(viewsets.ModelViewSet):
 
 class CompraGetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Compra.objects.filter(is_active=True).select_related('proveedor').order_by('-created_at')
-    serializer_class = CompraSerializer
+    serializer_class = CompraListSerializer
     permission_classes = [AllowAny]
 
 
