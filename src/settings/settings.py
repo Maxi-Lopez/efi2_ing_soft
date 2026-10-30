@@ -96,6 +96,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60), #Tiempo de vida del token de acceso
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1), #Tiempo de vida del token de refresco
     "AUTH_HEADER_TYPES": ("Bearer",), #El tipo de autenticacion que se va a utilizar
+    "TOKEN_OBTAIN_SERIALIZER": "usuarios.serializers.MyTokenObtainPairSerializer",
 }
 
 # Database
