@@ -2,6 +2,23 @@ from rest_framework import serializers
 from django.contrib.auth.models import Group
 from .models import UsuarioPersonalizado, ListaDeseosProductos
 from catalogo.serializers import ProductoListSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Si es superusuario, siempre es admin
+        if user.is_superuser:
+            token['role'] = 'admin'
+        else:
+            # Si no, buscamos en los grupos y forzamos minúsculas
+            groups = user.groups.all()
+            token['role'] = groups.first().name.lower() if groups else ''
+
+        return token
+
 #Serializer GET usuario
 class UsuarioPublicSerializer(serializers.ModelSerializer):
     class Meta:
