@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from .models import Compra, DetalleCompra
 from proveedores.serializers import ProveedorSerializer
+from catalogo.serializers import ProductoListSerializer
 
 
 class DetalleCompraSerializer(serializers.ModelSerializer):
+    producto = ProductoListSerializer(read_only=True)
+
     class Meta:
         model = DetalleCompra
         fields = [

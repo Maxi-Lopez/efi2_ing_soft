@@ -6,7 +6,7 @@ from usuarios.permissions import PermissionVendedor
 from rest_framework.decorators import action
 
 from .models import Venta, DetalleVenta
-from .serializers import VentaSerializer, DetalleVentaSerializer
+from .serializers import VentaSerializer, VentaGetSerializer, DetalleVentaSerializer
 
 
 class VentaViewSet(viewsets.ModelViewSet):
@@ -35,8 +35,8 @@ class VentaViewSet(viewsets.ModelViewSet):
 
 
 class VentaGetViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Venta.objects.filter(is_active=True).select_related('cliente').order_by('-created_at')
-    serializer_class = VentaSerializer
+    queryset = Venta.objects.filter(is_active=True).select_related('cliente').prefetch_related('detalles__producto__marca', 'detalles__producto__categoria').order_by('-created_at')
+    serializer_class = VentaGetSerializer
     permission_classes = [AllowAny]
 
 
